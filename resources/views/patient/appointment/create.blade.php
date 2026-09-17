@@ -41,11 +41,13 @@
             text-align: center;
             cursor: pointer;
             background: #fff;
-            transition: 0.2s;
+            transition: all 0.2s ease;
+            user-select: none;
         }
 
         .calendar-day:hover {
             border-color: #198754;
+            transform: translateY(-2px);
         }
 
         .calendar-day.disabled {
@@ -53,6 +55,11 @@
             color: #999;
             cursor: not-allowed;
             border-color: #ddd;
+        }
+
+        .calendar-day.disabled:hover {
+            border-color: #ddd;
+            transform: none;
         }
 
         .calendar-day.selected {
@@ -67,15 +74,12 @@
             padding: 15px;
             background: #fff;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.2s ease;
         }
 
         .slot-card:hover {
             border-color: #198754;
-        }
-
-        .slot-card.available {
-            background: #fff;
+            transform: translateY(-2px);
         }
 
         .slot-card.booked,
@@ -85,6 +89,12 @@
             color: #842029;
             cursor: not-allowed;
             opacity: 0.8;
+        }
+
+        .slot-card.booked:hover,
+        .slot-card.blocked:hover {
+            transform: none;
+            border-color: #dc3545;
         }
 
         .slot-card.selected {
@@ -103,11 +113,18 @@
             margin-top: 5px;
         }
 
+        .confirm-btn {
+            min-height: 52px;
+            border-radius: 10px;
+        }
+
     </style>
 
 </head>
 
+
 <body>
+
 
 <div class="container">
 
@@ -117,6 +134,11 @@
 
             <div class="card-body p-4 p-md-5">
 
+
+                {{-- =========================================================
+                     PAGE HEADER
+                ========================================================== --}}
+
                 <h3 class="mb-2">
                     Book Appointment
                 </h3>
@@ -124,6 +146,11 @@
                 <p class="text-muted mb-4">
                     Select a department, date and available time slot.
                 </p>
+
+
+                {{-- =========================================================
+                     SUCCESS MESSAGE
+                ========================================================== --}}
 
                 @if(session('success'))
 
@@ -133,6 +160,11 @@
 
                 @endif
 
+
+                {{-- =========================================================
+                     ERROR MESSAGE
+                ========================================================== --}}
+
                 @if(session('error'))
 
                     <div class="alert alert-danger">
@@ -141,13 +173,45 @@
 
                 @endif
 
-                {{-- Department --}}
+
+                {{-- =========================================================
+                     VALIDATION ERRORS
+                ========================================================== --}}
+
+                @if($errors->any())
+
+                    <div class="alert alert-danger">
+
+                        <ul class="mb-0">
+
+                            @foreach($errors->all() as $error)
+
+                                <li>
+                                    {{ $error }}
+                                </li>
+
+                            @endforeach
+
+                        </ul>
+
+                    </div>
+
+                @endif
+
+
+                {{-- =========================================================
+                     DEPARTMENT
+                ========================================================== --}}
 
                 <div class="mb-4">
 
-                    <label class="form-label fw-semibold">
+                    <label
+                        for="department_id"
+                        class="form-label fw-semibold"
+                    >
                         Select Department
                     </label>
+
 
                     <select
                         id="department_id"
@@ -158,10 +222,13 @@
                             Select Department
                         </option>
 
+
                         @foreach($departments as $department)
 
                             <option value="{{ $department->id }}">
+
                                 {{ $department->name }}
+
                             </option>
 
                         @endforeach
@@ -171,80 +238,194 @@
                 </div>
 
 
-                {{-- Calendar --}}
+                {{-- =========================================================
+                     APPOINTMENT DATE
+                ========================================================== --}}
 
                 <div class="mb-4">
 
                     <label class="form-label fw-semibold">
+
                         Select Appointment Date
+
                     </label>
+
+
+                    @php
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | IMPORTANT
+                        |--------------------------------------------------------------------------
+                        |
+                        | Always calculate current date using Bangladesh timezone.
+                        |
+                        | This prevents UTC server time from showing the wrong date.
+                        |
+                        */
+
+                        $today = now('Asia/Dhaka')->startOfDay();
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Carbon Day Of Week
+                        |--------------------------------------------------------------------------
+                        |
+                        | Sunday    = 0
+                        | Monday    = 1
+                        | Tuesday   = 2
+                        | Wednesday = 3
+                        | Thursday  = 4
+                        | Friday    = 5
+                        | Saturday  = 6
+                        |
+                        */
+
+                        $dayOfWeek = $today->dayOfWeek;
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Calendar Start
+                        |--------------------------------------------------------------------------
+                        |
+                        | Saturday -> Thursday
+                        | Current booking week.
+                        |
+                        | Friday -> Next Saturday.
+                        |
+                        */
+
+                        if ($dayOfWeek == 5) {
+
+                            /*
+                            | Friday
+                            | New booking week starts from tomorrow Saturday.
+                            */
+
+                            $calendarStart =
+                                $today->copy()->addDay();
+
+                        } else {
+
+                            /*
+                            | Saturday -> Thursday
+                            |
+                            | Find current week's Saturday.
+                            */
+
+                            $daysFromSaturday =
+                                ($dayOfWeek + 1) % 7;
+
+                            $calendarStart =
+                                $today->copy()
+                                    ->subDays($daysFromSaturday);
+
+                        }
+
+                    @endphp
+
 
                     <div
                         id="calendar"
                         class="row g-2"
                     >
 
-                        @php
-
-                            $today = now()->startOfDay();
-
-                            $dayOfWeek = $today->dayOfWeek;
-
-                            if ($dayOfWeek == 5) {
-
-                                $calendarStart =
-                                    $today->copy()->addDay();
-
-                            } else {
-
-                                $daysFromSaturday =
-                                    ($dayOfWeek + 1) % 7;
-
-                                $calendarStart =
-                                    $today->copy()
-                                        ->subDays($daysFromSaturday);
-
-                            }
-
-                        @endphp
 
                         @for($i = 0; $i < 7; $i++)
 
                             @php
 
+                                /*
+                                |--------------------------------------------------------------------------
+                                | Current Calendar Date
+                                |--------------------------------------------------------------------------
+                                */
+
                                 $date =
                                     $calendarStart->copy()
                                         ->addDays($i);
 
+
+                                /*
+                                |--------------------------------------------------------------------------
+                                | Date String
+                                |--------------------------------------------------------------------------
+                                |
+                                | Compare date only.
+                                | Time will not affect the result.
+                                |
+                                */
+
+                                $dateString =
+                                    $date->format('Y-m-d');
+
+                                $todayString =
+                                    $today->format('Y-m-d');
+
+
+                                /*
+                                |--------------------------------------------------------------------------
+                                | Past Date
+                                |--------------------------------------------------------------------------
+                                */
+
                                 $isPast =
-                                    $date->lt($today);
+                                    $dateString < $todayString;
+
+
+                                /*
+                                |--------------------------------------------------------------------------
+                                | Friday
+                                |--------------------------------------------------------------------------
+                                |
+                                | Friday is always closed.
+                                |
+                                */
 
                                 $isFriday =
                                     $date->dayOfWeek == 5;
+
+
+                                /*
+                                |--------------------------------------------------------------------------
+                                | Disabled
+                                |--------------------------------------------------------------------------
+                                */
 
                                 $disabled =
                                     $isPast || $isFriday;
 
                             @endphp
 
+
                             <div class="col-6 col-md">
 
                                 <div
                                     class="calendar-day {{ $disabled ? 'disabled' : '' }}"
-                                    data-date="{{ $date->format('Y-m-d') }}"
+                                    data-date="{{ $dateString }}"
                                     data-disabled="{{ $disabled ? 1 : 0 }}"
                                 >
 
                                     <div class="small">
+
                                         {{ $date->format('D') }}
+
                                     </div>
+
 
                                     <div class="fs-4 fw-bold">
+
                                         {{ $date->format('d') }}
+
                                     </div>
 
+
                                     <div class="small">
+
                                         {{ $date->format('M') }}
+
                                     </div>
 
                                 </div>
@@ -258,13 +439,18 @@
                 </div>
 
 
-                {{-- Slots --}}
+                {{-- =========================================================
+                     AVAILABLE SLOTS
+                ========================================================== --}}
 
                 <div class="mb-4">
 
                     <label class="form-label fw-semibold">
+
                         Available Slots
+
                     </label>
+
 
                     <div
                         id="slotContainer"
@@ -273,8 +459,10 @@
 
                         <div class="col-12">
 
-                            <div class="alert alert-light border">
+                            <div class="alert alert-light border mb-0">
+
                                 Select department and date first.
+
                             </div>
 
                         </div>
@@ -284,7 +472,9 @@
                 </div>
 
 
-                {{-- Booking Form --}}
+                {{-- =========================================================
+                     APPOINTMENT FORM
+                ========================================================== --}}
 
                 <form
                     method="POST"
@@ -294,6 +484,9 @@
 
                     @csrf
 
+
+                    {{-- Selected Slot --}}
+
                     <input
                         type="hidden"
                         name="slot_id"
@@ -301,7 +494,34 @@
                     >
 
 
-                    {{-- Payment Method --}}
+                    {{-- =====================================================
+                         NOTES
+                    ====================================================== --}}
+
+                    <div class="mb-4">
+
+                        <label
+                            for="notes"
+                            class="form-label"
+                        >
+                            Notes
+                        </label>
+
+
+                        <textarea
+                            name="notes"
+                            id="notes"
+                            class="form-control"
+                            rows="4"
+                            placeholder="Optional notes"
+                        >{{ old('notes') }}</textarea>
+
+                    </div>
+
+
+                    {{-- =========================================================
+     PAYMENT METHOD
+========================================================== --}}
 
                     <div class="mb-4">
 
@@ -311,99 +531,144 @@
 
                         <div class="row g-3">
 
+                            {{-- Online Payment --}}
+
                             <div class="col-md-6">
 
-                                <div class="form-check border rounded p-3">
+                                <label
+                                    class="payment-option d-block border rounded p-3"
+                                    style="cursor: pointer;"
+                                >
 
-                                    <input
-                                        class="form-check-input"
-                                        type="radio"
-                                        name="payment_method"
-                                        value="online"
-                                        id="online_payment"
-                                    >
+                                    <div class="form-check">
 
-                                    <label
-                                        class="form-check-label"
-                                        for="online_payment"
-                                    >
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="payment_method"
+                                            value="online"
+                                            id="online_payment"
+                                            {{ old('payment_method') === 'online' ? 'checked' : '' }}
+                                        >
 
-                                        <strong>
-                                            Online Payment
-                                        </strong>
+                                        <label
+                                            class="form-check-label"
+                                            for="online_payment"
+                                        >
 
-                                        <div class="small text-muted">
-                                            Pay online after appointment confirmation.
-                                        </div>
+                                            <strong>
+                                                Online Payment
+                                            </strong>
 
-                                    </label>
+                                        </label>
 
-                                </div>
+                                    </div>
+
+                                    <div class="small text-muted mt-1 ms-4">
+
+                                        Pay online after appointment confirmation.
+
+                                    </div>
+
+                                </label>
 
                             </div>
 
 
+                            {{-- Manual Payment --}}
+
                             <div class="col-md-6">
 
-                                <div class="form-check border rounded p-3">
+                                <label
+                                    class="payment-option d-block border rounded p-3"
+                                    style="cursor: pointer;"
+                                >
 
-                                    <input
-                                        class="form-check-input"
-                                        type="radio"
-                                        name="payment_method"
-                                        value="manual"
-                                        id="manual_payment"
-                                    >
+                                    <div class="form-check">
 
-                                    <label
-                                        class="form-check-label"
-                                        for="manual_payment"
-                                    >
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="payment_method"
+                                            value="manual"
+                                            id="manual_payment"
+                                            {{ old('payment_method') === 'manual' ? 'checked' : '' }}
+                                        >
 
-                                        <strong>
-                                            Manual Payment
-                                        </strong>
+                                        <label
+                                            class="form-check-label"
+                                            for="manual_payment"
+                                        >
 
-                                        <div class="small text-muted">
-                                            Pay at the hospital counter.
-                                        </div>
+                                            <strong>
+                                                Manual Payment
+                                            </strong>
 
-                                    </label>
+                                        </label>
 
-                                </div>
+                                    </div>
+
+                                    <div class="small text-muted mt-1 ms-4">
+
+                                        Pay at the hospital counter.
+
+                                    </div>
+
+                                </label>
 
                             </div>
 
                         </div>
 
+
+                        @error('payment_method')
+
+                        <div class="text-danger mt-2">
+                            {{ $message }}
+                        </div>
+
+                        @enderror
+
                     </div>
 
 
-                    {{-- Notes --}}
+                    {{-- =========================================================
+                         NOTES
+                    ========================================================== --}}
 
                     <div class="mb-4">
 
-                        <label class="form-label">
+                        <label
+                            for="notes"
+                            class="form-label"
+                        >
                             Notes
                         </label>
 
                         <textarea
                             name="notes"
+                            id="notes"
                             class="form-control"
-                            rows="3"
+                            rows="4"
                             placeholder="Optional notes"
-                        ></textarea>
+                        >{{ old('notes') }}</textarea>
 
                     </div>
 
 
+                    {{-- =====================================================
+                         CONFIRM BUTTON
+                    ====================================================== --}}
+
                     <button
                         type="submit"
                         id="confirmButton"
-                        class="btn btn-success btn-lg w-100"
+                        class="btn btn-success btn-lg w-100 confirm-btn"
                         disabled
                     >
+
                         Confirm Appointment
+
                     </button>
 
                 </form>
@@ -417,86 +682,178 @@
 </div>
 
 
+
 <script>
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Elements
+    |--------------------------------------------------------------------------
+    */
 
     const departmentSelect =
         document.getElementById('department_id');
 
+
     const slotContainer =
         document.getElementById('slotContainer');
 
+
     const slotInput =
         document.getElementById('slot_id');
+
 
     const confirmButton =
         document.getElementById('confirmButton');
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Selected Date
+    |--------------------------------------------------------------------------
+    */
+
     let selectedDate = null;
 
 
+
     /*
-     * Calendar click
-     */
+    |--------------------------------------------------------------------------
+    | Calendar Click
+    |--------------------------------------------------------------------------
+    */
 
     document.querySelectorAll('.calendar-day')
         .forEach(function (day) {
 
-            day.addEventListener('click', function () {
-
-                if (
-                    this.dataset.disabled == '1'
-                ) {
-                    return;
-                }
-
-                if (!departmentSelect.value) {
-
-                    alert(
-                        'Please select department first.'
-                    );
-
-                    return;
-                }
+            day.addEventListener(
+                'click',
+                function () {
 
 
-                document.querySelectorAll(
-                    '.calendar-day'
-                ).forEach(function (item) {
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Disabled Date
+                    |--------------------------------------------------------------------------
+                    */
 
-                    item.classList.remove(
+                    if (
+                        this.dataset.disabled === '1'
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Department Required
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if (!departmentSelect.value) {
+
+                        alert(
+                            'Please select department first.'
+                        );
+
+                        return;
+
+                    }
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Remove Previous Selection
+                    |--------------------------------------------------------------------------
+                    */
+
+                    document.querySelectorAll(
+                        '.calendar-day'
+                    ).forEach(function (item) {
+
+                        item.classList.remove(
+                            'selected'
+                        );
+
+                    });
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Select Date
+                    |--------------------------------------------------------------------------
+                    */
+
+                    this.classList.add(
                         'selected'
                     );
 
-                });
+
+                    selectedDate =
+                        this.dataset.date;
 
 
-                this.classList.add('selected');
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Load Slots
+                    |--------------------------------------------------------------------------
+                    */
 
-                selectedDate =
-                    this.dataset.date;
+                    loadSlots();
 
-
-                loadSlots();
-
-            });
+                }
+            );
 
         });
 
 
+
     /*
-     * Department change
-     */
+    |--------------------------------------------------------------------------
+    | Department Change
+    |--------------------------------------------------------------------------
+    */
 
     departmentSelect.addEventListener(
         'change',
         function () {
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | Reset Date
+            |--------------------------------------------------------------------------
+            */
+
             selectedDate = null;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Reset Slot
+            |--------------------------------------------------------------------------
+            */
 
             slotInput.value = '';
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | Disable Confirm Button
+            |--------------------------------------------------------------------------
+            */
+
             confirmButton.disabled = true;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Remove Date Selection
+            |--------------------------------------------------------------------------
+            */
 
             document.querySelectorAll(
                 '.calendar-day'
@@ -509,21 +866,36 @@
             });
 
 
+            /*
+            |--------------------------------------------------------------------------
+            | Reset Slot Container
+            |--------------------------------------------------------------------------
+            */
+
             slotContainer.innerHTML = `
+
                 <div class="col-12">
-                    <div class="alert alert-light border">
-                        Select a date to see slots.
+
+                    <div class="alert alert-light border mb-0">
+
+                        Select a date to see available slots.
+
                     </div>
+
                 </div>
+
             `;
 
         }
     );
 
 
+
     /*
-     * Load slots
-     */
+    |--------------------------------------------------------------------------
+    | Load Slots
+    |--------------------------------------------------------------------------
+    */
 
     function loadSlots()
     {
@@ -532,204 +904,397 @@
             !departmentSelect.value ||
             !selectedDate
         ) {
+
             return;
+
         }
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | Reset Selected Slot
+        |--------------------------------------------------------------------------
+        */
+
         slotInput.value = '';
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Disable Confirm Button
+        |--------------------------------------------------------------------------
+        */
 
         confirmButton.disabled = true;
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | Loading
+        |--------------------------------------------------------------------------
+        */
+
         slotContainer.innerHTML = `
+
             <div class="col-12">
-                <div class="alert alert-info">
+
+                <div class="alert alert-info mb-0">
+
                     Loading available slots...
+
                 </div>
+
             </div>
+
         `;
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Slots URL
+        |--------------------------------------------------------------------------
+        */
 
         const url =
             "{{ route('patient.appointment.slots') }}" +
             "?department_id=" +
-            departmentSelect.value +
+            encodeURIComponent(
+                departmentSelect.value
+            ) +
             "&date=" +
-            selectedDate;
+            encodeURIComponent(
+                selectedDate
+            );
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Fetch Slots
+        |--------------------------------------------------------------------------
+        */
 
         fetch(url)
 
-            .then(response => response.json())
+            .then(function (response) {
 
-            .then(data => {
+                return response.json();
+
+            })
+
+            .then(function (data) {
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | API Error
+                |--------------------------------------------------------------------------
+                */
 
                 if (!data.success) {
 
                     slotContainer.innerHTML = `
+
                         <div class="col-12">
-                            <div class="alert alert-danger">
+
+                            <div class="alert alert-danger mb-0">
+
                                 ${data.message}
+
                             </div>
+
                         </div>
+
                     `;
 
                     return;
+
                 }
 
 
-                if (!data.slots.length) {
+                /*
+                |--------------------------------------------------------------------------
+                | No Slots
+                |--------------------------------------------------------------------------
+                */
+
+                if (
+                    !data.slots ||
+                    !data.slots.length
+                ) {
 
                     slotContainer.innerHTML = `
+
                         <div class="col-12">
-                            <div class="alert alert-warning">
+
+                            <div class="alert alert-warning mb-0">
+
                                 No slots available for this date.
+
                             </div>
+
                         </div>
+
                     `;
 
                     return;
+
                 }
 
+
+                /*
+                |--------------------------------------------------------------------------
+                | Clear Slot Container
+                |--------------------------------------------------------------------------
+                */
 
                 slotContainer.innerHTML = '';
 
 
-                data.slots.forEach(function (slot) {
+                /*
+                |--------------------------------------------------------------------------
+                | Render Slots
+                |--------------------------------------------------------------------------
+                */
 
-                    let disabled =
-                        slot.status !== 'available';
-
-                    let statusClass =
-                        slot.status;
-
-
-                    let statusText = '';
-
-                    if (slot.status === 'available') {
-
-                        statusText =
-                            'Available';
-
-                    } else if (
-                        slot.status === 'booked'
-                    ) {
-
-                        statusText =
-                            'Booked';
-
-                    } else {
-
-                        statusText =
-                            'Blocked';
-
-                    }
+                data.slots.forEach(
+                    function (slot) {
 
 
-                    const col =
-                        document.createElement('div');
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Is Disabled
+                        |--------------------------------------------------------------------------
+                        */
 
-                    col.className =
-                        'col-md-6 col-lg-4';
+                        const disabled =
+                            slot.status !== 'available';
 
 
-                    col.innerHTML = `
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Column
+                        |--------------------------------------------------------------------------
+                        */
 
-                        <div
-                            class="slot-card ${statusClass}"
-                            data-id="${slot.id}"
-                            data-disabled="${disabled ? 1 : 0}"
-                        >
+                        const col =
+                            document.createElement('div');
 
-                            <div class="slot-time">
-                                ${slot.start_time}
-                                -
-                                ${slot.end_time}
+                        col.className =
+                            'col-md-6 col-lg-4';
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Status Text
+                        |--------------------------------------------------------------------------
+                        */
+
+                        let statusText = '';
+
+
+                        if (
+                            slot.status === 'available'
+                        ) {
+
+                            statusText =
+                                'Available';
+
+                        } else if (
+                            slot.status === 'booked'
+                        ) {
+
+                            statusText =
+                                'Booked';
+
+                        } else {
+
+                            statusText =
+                                'Blocked';
+
+                        }
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Badge Class
+                        |--------------------------------------------------------------------------
+                        */
+
+                        const badgeClass =
+                            slot.status === 'available'
+                                ? 'bg-success'
+                                : 'bg-danger';
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Slot Card
+                        |--------------------------------------------------------------------------
+                        */
+
+                        col.innerHTML = `
+
+                            <div
+                                class="slot-card ${slot.status}"
+                                data-id="${slot.id}"
+                                data-disabled="${disabled ? 1 : 0}"
+                            >
+
+                                <div class="slot-time">
+
+                                    ${slot.start_time}
+
+                                    -
+
+                                    ${slot.end_time}
+
+                                </div>
+
+
+                                <div class="slot-doctor">
+
+                                    Doctor:
+
+                                    <strong>
+                                        ${slot.doctor_name}
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="mt-2">
+
+                                    <span class="badge ${badgeClass}">
+
+                                        ${statusText}
+
+                                    </span>
+
+                                </div>
+
                             </div>
 
-                            <div class="slot-doctor">
-                                Doctor:
-                                <strong>
-                                    ${slot.doctor_name}
-                                </strong>
-                            </div>
-
-                            <div class="mt-2">
-
-                                <span class="badge ${
-                        slot.status === 'available'
-                            ? 'bg-success'
-                            : 'bg-danger'
-                    }">
-
-                                    ${statusText}
-
-                                </span>
-
-                            </div>
-
-                        </div>
-                    `;
+                        `;
 
 
-                    const card =
-                        col.querySelector(
-                            '.slot-card'
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Card
+                        |--------------------------------------------------------------------------
+                        */
+
+                        const card =
+                            col.querySelector(
+                                '.slot-card'
+                            );
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Available Slot Click
+                        |--------------------------------------------------------------------------
+                        */
+
+                        if (!disabled) {
+
+                            card.addEventListener(
+                                'click',
+                                function () {
+
+
+                                    /*
+                                    |------------------------------------------------------
+                                    | Remove Previous Selected Slot
+                                    |------------------------------------------------------
+                                    */
+
+                                    document.querySelectorAll(
+                                        '.slot-card'
+                                    ).forEach(
+                                        function (item) {
+
+                                            item.classList.remove(
+                                                'selected'
+                                            );
+
+                                        }
+                                    );
+
+
+                                    /*
+                                    |------------------------------------------------------
+                                    | Select Slot
+                                    |------------------------------------------------------
+                                    */
+
+                                    this.classList.add(
+                                        'selected'
+                                    );
+
+
+                                    /*
+                                    |------------------------------------------------------
+                                    | Set Slot ID
+                                    |------------------------------------------------------
+                                    */
+
+                                    slotInput.value =
+                                        this.dataset.id;
+
+
+                                    /*
+                                    |------------------------------------------------------
+                                    | Enable Confirm Button
+                                    |------------------------------------------------------
+                                    */
+
+                                    confirmButton.disabled =
+                                        false;
+
+                                }
+                            );
+
+                        }
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Add Slot
+                        |--------------------------------------------------------------------------
+                        */
+
+                        slotContainer.appendChild(
+                            col
                         );
 
-
-                    if (!disabled) {
-
-                        card.addEventListener(
-                            'click',
-                            function () {
-
-                                document.querySelectorAll(
-                                    '.slot-card'
-                                ).forEach(
-                                    function (item) {
-
-                                        item.classList.remove(
-                                            'selected'
-                                        );
-
-                                    }
-                                );
-
-
-                                this.classList.add(
-                                    'selected'
-                                );
-
-
-                                slotInput.value =
-                                    this.dataset.id;
-
-
-                                confirmButton.disabled =
-                                    false;
-
-                            }
-                        );
-
                     }
-
-
-                    slotContainer.appendChild(col);
-
-                });
+                );
 
             })
 
             .catch(function (error) {
 
+
+                /*
+                |--------------------------------------------------------------------------
+                | Request Error
+                |--------------------------------------------------------------------------
+                */
+
                 slotContainer.innerHTML = `
+
                     <div class="col-12">
-                        <div class="alert alert-danger">
-                            Failed to load slots.
+
+                        <div class="alert alert-danger mb-0">
+
+                            Failed to load available slots.
+
                         </div>
+
                     </div>
+
                 `;
+
 
                 console.error(error);
 
@@ -738,15 +1303,25 @@
     }
 
 
+
     /*
-     * Prevent submit without slot/payment.
-     */
+    |--------------------------------------------------------------------------
+    | Appointment Form Submit
+    |--------------------------------------------------------------------------
+    */
 
     document.getElementById(
         'appointmentForm'
     ).addEventListener(
         'submit',
         function (event) {
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Slot Required
+            |--------------------------------------------------------------------------
+            */
 
             if (!slotInput.value) {
 
@@ -757,22 +1332,6 @@
                 );
 
                 return;
-            }
-
-
-            const payment =
-                document.querySelector(
-                    'input[name="payment_method"]:checked'
-                );
-
-
-            if (!payment) {
-
-                event.preventDefault();
-
-                alert(
-                    'Please select a payment method.'
-                );
 
             }
 
@@ -780,6 +1339,7 @@
     );
 
 </script>
+
 
 </body>
 
