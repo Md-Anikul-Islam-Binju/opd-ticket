@@ -1,305 +1,264 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('patient.index')
 
-<head>
+@section('content')
 
-    <meta charset="UTF-8">
+    <div class="min-h-screen bg-[#f4f7fb] py-8 sm:py-10">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    <title>
-        Manual Payment
-    </title>
+            <div class="max-w-2xl mx-auto">
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
+                {{-- =====================================================
+                     MAIN CARD
+                ====================================================== --}}
 
-    <style>
+                <div class="bg-white rounded-[20px]
+                        border border-gray-200
+                        shadow-[0_10px_35px_rgba(0,0,0,0.07)]
+                        overflow-hidden">
 
-        body {
-            background: #f4f7fb;
-            font-family: Arial, sans-serif;
-        }
-
-        .navbar {
-            background: #ffffff;
-            border-bottom: 1px solid #e8edf3;
-        }
-
-        .brand {
-            font-size: 21px;
-            font-weight: 700;
-            color: #0d6efd;
-        }
-
-        .message-card {
-            background: #ffffff;
-            border: 0;
-            border-radius: 20px;
-            box-shadow: 0 10px 35px rgba(0,0,0,.07);
-        }
-
-        .success-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: #d1e7dd;
-            color: #198754;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            margin: 0 auto 20px;
-        }
-
-        .title {
-            font-size: 27px;
-            font-weight: 700;
-            color: #1f2937;
-        }
-
-        .message {
-            color: #6b7280;
-            line-height: 1.7;
-        }
-
-        .ticket-box {
-            background: #eef6ff;
-            border: 1px solid #cfe2ff;
-            border-radius: 14px;
-            padding: 18px;
-        }
-
-        .ticket-label {
-            font-size: 12px;
-            color: #6b7280;
-        }
-
-        .ticket-number {
-            color: #0d6efd;
-            font-size: 22px;
-            font-weight: 700;
-            margin-top: 4px;
-        }
-
-        .amount {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .notice {
-            background: #fff8e1;
-            border: 1px solid #ffe082;
-            border-radius: 12px;
-            padding: 16px;
-            color: #665b2d;
-        }
-
-        .btn-custom {
-            border-radius: 10px;
-            padding: 11px 22px;
-            font-weight: 600;
-        }
-
-    </style>
-
-</head>
+                    <div class="p-6 sm:p-10 text-center">
 
 
-<body>
+                        {{-- =================================================
+                             SUCCESS ICON
+                        ================================================== --}}
 
+                        <div class="w-[70px] h-[70px]
+                                mx-auto mb-5
+                                rounded-full
+                                bg-green-100
+                                text-green-600
+                                flex items-center justify-center
+                                text-3xl
+                                font-bold">
 
-<nav class="navbar">
-
-    <div class="container">
-
-        <div class="d-flex
-                    justify-content-between
-                    align-items-center
-                    w-100">
-
-            <div class="brand">
-                Patient Portal
-            </div>
-
-            <a
-                href="{{ route('patient.dashboard') }}"
-                class="btn btn-outline-secondary btn-sm"
-            >
-                Dashboard
-            </a>
-
-        </div>
-
-    </div>
-
-</nav>
-
-
-
-<div class="container py-5">
-
-    <div class="row justify-content-center">
-
-        <div class="col-lg-7">
-
-
-            <div class="card message-card">
-
-                <div class="card-body p-5 text-center">
-
-
-                    <div class="success-icon">
-                        ✓
-                    </div>
-
-
-                    <div class="title mb-3">
-                        Manual Payment Selected
-                    </div>
-
-
-                    <p class="message mb-4">
-
-                        Your appointment has been successfully
-                        reserved.
-
-                        Please visit the hospital and complete
-                        your payment at the designated payment
-                        counter.
-
-                    </p>
-
-
-
-                    {{-- Ticket --}}
-
-                    <div class="ticket-box mb-4">
-
-                        <div class="ticket-label">
-                            Appointment Ticket
-                        </div>
-
-                        <div class="ticket-number">
-
-                            {{ $appointment->ticket_number }}
+                            <i class="fa-solid fa-check"></i>
 
                         </div>
 
-                    </div>
+
+                        {{-- =================================================
+                             TITLE
+                        ================================================== --}}
+
+                        <h1 class="text-2xl sm:text-[27px]
+                               font-bold
+                               text-gray-800
+                               mb-3">
+
+                            Manual Payment Selected
+
+                        </h1>
 
 
+                        {{-- =================================================
+                             MESSAGE
+                        ================================================== --}}
 
-                    <div class="row g-3 mb-4">
+                        <p class="text-sm sm:text-base
+                              text-gray-500
+                              leading-7
+                              mb-6">
+
+                            Your appointment has been successfully reserved.
+
+                            Please visit the hospital and complete your payment
+                            at the designated payment counter.
+
+                        </p>
 
 
-                        <div class="col-md-6">
+                        {{-- =================================================
+                             TICKET
+                        ================================================== --}}
 
-                            <div class="border rounded p-3">
+                        <div class="bg-[#eef6ff]
+                                border border-[#cfe2ff]
+                                rounded-xl
+                                p-4 sm:p-5
+                                mb-6
+                                text-left">
 
-                                <div class="text-muted small">
+                            <div class="text-xs text-gray-500">
+                                Appointment Ticket
+                            </div>
+
+                            <div class="text-xl sm:text-2xl
+                                    font-bold
+                                    text-blue-600
+                                    tracking-wide
+                                    mt-1">
+
+                                {{ $appointment->ticket_number }}
+
+                            </div>
+
+                        </div>
+
+
+                        {{-- =================================================
+                             DOCTOR + FEE
+                        ================================================== --}}
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+
+
+                            {{-- Doctor --}}
+
+                            <div class="border border-gray-200
+                                    rounded-xl
+                                    p-4
+                                    text-left">
+
+                                <div class="text-xs text-gray-500 mb-1">
                                     Doctor
                                 </div>
 
-                                <div class="fw-bold">
+                                <div class="text-sm sm:text-[15px]
+                                        font-bold
+                                        text-gray-800">
 
                                     Dr.
-                                    {{ $appointment->doctor->name }}
+                                    {{ $appointment->doctor->name ?? 'N/A' }}
 
                                 </div>
 
                             </div>
 
-                        </div>
 
+                            {{-- Ticket Fee --}}
 
+                            <div class="border border-gray-200
+                                    rounded-xl
+                                    p-4
+                                    text-left">
 
-                        <div class="col-md-6">
-
-                            <div class="border rounded p-3">
-
-                                <div class="text-muted small">
+                                <div class="text-xs text-gray-500 mb-1">
                                     Ticket Fee
                                 </div>
 
-                                <div class="amount">
+                                <div class="text-xl
+                                        font-bold
+                                        text-blue-600">
 
                                     ৳ {{ number_format(
-                                        $appointment->payment->amount,
-                                        2
-                                    ) }}
+                                    $appointment->payment->amount ?? 0,
+                                    2
+                                ) }}
 
                                 </div>
 
                             </div>
 
-                        </div>
-
-                    </div>
-
-
-
-                    {{-- Important Message --}}
-
-                    <div class="notice text-start mb-4">
-
-                        <strong>
-                            Important:
-                        </strong>
-
-                        <div class="mt-2">
-
-                            Hospital-এ গিয়ে payment করার পর
-                            আপনার appointment ticket-এ
-                            payment-এর একটি official
-                            <strong>seal</strong> দেওয়া হবে।
 
                         </div>
 
-                        <div class="mt-2">
 
-                            Hospital থেকে payment confirmation
-                            না পাওয়া পর্যন্ত আপনার payment
-                            status <strong>Pending</strong> থাকবে।
+                        {{-- =================================================
+                             IMPORTANT NOTICE
+                        ================================================== --}}
+
+                        <div class="bg-[#fff8e1]
+                                border border-[#ffe082]
+                                rounded-xl
+                                p-4
+                                text-left
+                                text-sm
+                                text-[#665b2d]
+                                leading-6
+                                mb-6">
+
+                            <div class="font-bold mb-2">
+                                <i class="fa-solid fa-circle-exclamation mr-1"></i>
+                                Important
+                            </div>
+
+
+                            <div>
+
+                                Hospital-এ গিয়ে payment করার পর
+                                আপনার appointment ticket-এ
+                                payment-এর একটি official
+                                <strong>seal</strong> দেওয়া হবে।
+
+                            </div>
+
+
+                            <div class="mt-3">
+
+                                Hospital থেকে payment confirmation
+                                না পাওয়া পর্যন্ত আপনার payment status
+                                <strong>Pending</strong> থাকবে।
+
+                            </div>
 
                         </div>
 
-                    </div>
 
+                        {{-- =================================================
+                             ACTION BUTTONS
+                        ================================================== --}}
 
+                        <div class="flex flex-col sm:flex-row
+                                items-center
+                                justify-center
+                                gap-3">
 
-                    <div class="d-flex
-                                justify-content-center
-                                gap-2
-                                flex-wrap">
-
-                        <a
-                            href="{{ route(
+                            <a
+                                href="{{ route(
                                 'patient.appointment.show',
                                 $appointment->id
                             ) }}"
-                            class="btn btn-primary btn-custom"
-                        >
-                            View Appointment
-                        </a>
+                                class="w-full sm:w-auto
+                                   inline-flex
+                                   items-center
+                                   justify-center
+                                   px-5 py-2.5
+                                   rounded-xl
+                                   bg-blue-600
+                                   hover:bg-blue-700
+                                   text-white
+                                   text-sm
+                                   font-semibold
+                                   transition
+                                   shadow-sm"
+                            >
+
+                                <i class="fa-solid fa-calendar-check mr-2"></i>
+
+                                View Appointment
+
+                            </a>
 
 
-                        <a
-                            href="{{ route(
-                                'patient.dashboard'
-                            ) }}"
-                            class="btn btn-outline-secondary btn-custom"
-                        >
-                            Dashboard
-                        </a>
+                            <a
+                                href="{{ route('patient.dashboard') }}"
+                                class="w-full sm:w-auto
+                                   inline-flex
+                                   items-center
+                                   justify-center
+                                   px-5 py-2.5
+                                   rounded-xl
+                                   border border-gray-300
+                                   bg-white
+                                   hover:bg-gray-50
+                                   text-gray-700
+                                   text-sm
+                                   font-semibold
+                                   transition"
+                            >
+
+                                <i class="fa-solid fa-gauge mr-2"></i>
+
+                                Dashboard
+
+                            </a>
+
+                        </div>
+
 
                     </div>
-
 
                 </div>
 
@@ -309,9 +268,4 @@
 
     </div>
 
-</div>
-
-
-</body>
-
-</html>
+@endsection
