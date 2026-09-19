@@ -453,6 +453,12 @@ class AppointmentController extends Controller
             $departments = Department::where('status', true)
                 ->orderBy('name')
                 ->get();
+            $appointments = Appointment::where(
+                'patient_id',
+                auth()->id()
+            )->get();
+
+
 
 
             $today = now()->startOfDay();
@@ -510,7 +516,9 @@ class AppointmentController extends Controller
                 compact(
                     'departments',
                     'weekStart',
-                    'weekEnd'
+                    'weekEnd',
+                    'appointments'
+
                 )
             );
 
