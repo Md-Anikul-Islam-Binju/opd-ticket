@@ -258,7 +258,9 @@
 <!-- =========================================
      CALENDAR DATA + JAVASCRIPT
 ========================================== -->
-
+@php
+    $appointments = $appointments ?? collect();
+@endphp
 <script>
 
 
