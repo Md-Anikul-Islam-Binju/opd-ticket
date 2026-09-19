@@ -31,12 +31,6 @@ class PermissionTableSeeder extends Seeder
             'card-list',
 
 
-            //For Slider
-            'slider-list',
-            'slider-create',
-            'slider-edit',
-            'slider-delete',
-
             //For Department
             'department-list',
             'department-create',

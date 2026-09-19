@@ -85,7 +85,7 @@
     <div class="leftside-menu">
         <a href="{{route('dashboard')}}" class="logo logo-light">
             <span class="logo-lg">
-                <img src="{{URL::to('backend/images/logo.png')}}" alt="logo" style="height: 20px;">
+                <img src="{{URL::to('backend/images/logo.png')}}" alt="logo" style="height: 50px;">
             </span>
             <span class="logo-sm">
                 <img src="{{URL::to('backend/images/logo.png')}}" alt="small logo" style="height: 20px;">
@@ -141,14 +141,7 @@
                         </div>
                     </li>
 
-                @can('slider-list')
-                <li class="side-nav-item">
-                    <a href="{{route('slider.list')}}" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Slider </span>
-                    </a>
-                </li>
-                @endcan
+
 
 
 
@@ -191,7 +184,11 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12 text-center">
-                        <script>document.write(new Date().getFullYear())</script> © Admin Dashboard</b>
+                        <script>document.write(new Date().getFullYear())</script>
+                        © Admin Dashboard Powered By
+                        <a href="https://codernetix.com" target="_blank" rel="noopener noreferrer">
+                            CoderNetiX
+                        </a>
                     </div>
                 </div>
             </div>
