@@ -129,7 +129,7 @@
                                         </li>
                                     @endcan
 
-                                    @can('doctor-slot-list')
+                                    @can('service-list')
                                         <li>
                                             <a href="{{route('service.section')}}">Ticket Fee</a>
                                         </li>

@@ -1,52 +1,279 @@
+{{--@extends('admin.app')--}}
+{{--@section('admin_content')--}}
+{{--    <div class="row">--}}
+{{--        <div class="col-lg-12 margin-tb">--}}
+{{--            <div class="pull-left">--}}
+{{--                <h2>Create New Role</h2>--}}
+{{--            </div>--}}
+{{--            <div class="pull-right">--}}
+{{--                <a class="btn btn-primary btn-sm mb-2" href="{{ route('roles.index') }}"><i class="fa fa-arrow-left"></i> Back</a>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+
+{{--    @if (count($errors) > 0)--}}
+{{--        <div class="alert alert-danger">--}}
+{{--            <strong>Whoops!</strong> There were some problems with your input.<br><br>--}}
+{{--            <ul>--}}
+{{--                @foreach ($errors->all() as $error)--}}
+{{--                    <li>{{ $error }}</li>--}}
+{{--                @endforeach--}}
+{{--            </ul>--}}
+{{--        </div>--}}
+{{--    @endif--}}
+
+{{--    <form method="POST" action="{{ route('roles.store') }}">--}}
+{{--        @csrf--}}
+{{--        <div class="row">--}}
+{{--            <div class="col-xs-12 col-sm-12 col-md-12">--}}
+{{--                <div class="form-group">--}}
+{{--                    <strong>Name:</strong>--}}
+{{--                    <input type="text" name="name" placeholder="Name" class="form-control">--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="col-xs-12 col-sm-12 col-md-12">--}}
+{{--                <div class="form-group">--}}
+{{--                    <strong>Permission:</strong>--}}
+{{--                    <br/>--}}
+{{--                    @foreach($permission as $value)--}}
+{{--                        <label><input type="checkbox" name="permission[{{$value->id}}]" value="{{$value->id}}" class="name">--}}
+{{--                            {{ $value->name }}</label>--}}
+{{--                        <br/>--}}
+{{--                    @endforeach--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="col-xs-12 col-sm-12 col-md-12 text-center">--}}
+{{--                <button type="submit" class="btn btn-primary btn-sm mb-3"><i class="fa-solid fa-floppy-disk"></i> Submit</button>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </form>--}}
+
+{{--    <p class="text-center text-primary"><small>Tutorial by ItSolutionStuff.com</small></p>--}}
+{{--@endsection--}}
+
+
 @extends('admin.app')
+
 @section('admin_content')
+
     <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Create New Role</h2>
+        <div class="col-12">
+
+            {{-- Page Header --}}
+            <div class="card">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-1">Create New Role</h4>
+                        <p class="text-muted mb-0">
+                            Create a role and assign permissions.
+                        </p>
+                    </div>
+
+                    <a class="btn btn-primary" href="{{ route('roles.index') }}">
+                        <i class="fa fa-arrow-left me-1"></i>
+                        Back
+                    </a>
+                </div>
             </div>
-            <div class="pull-right">
-                <a class="btn btn-primary btn-sm mb-2" href="{{ route('roles.index') }}"><i class="fa fa-arrow-left"></i> Back</a>
-            </div>
+
+
+            {{-- Validation Errors --}}
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <strong>Whoops!</strong>
+                    There were some problems with your input.
+
+                    <ul class="mb-0 mt-2">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+
+            <form method="POST" action="{{ route('roles.store') }}">
+                @csrf
+
+                {{-- =========================
+                     SECTION 01 : ROLE INFO
+                ========================== --}}
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fa fa-user-shield me-1"></i>
+                            Role Information
+                        </h5>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-lg-6">
+
+                                <label class="form-label">
+                                    Role Name <span class="text-danger">*</span>
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value="{{ old('name') }}"
+                                    placeholder="Enter role name"
+                                    class="form-control"
+                                    required
+                                >
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                {{-- =========================
+                     SECTION 02 : PERMISSIONS
+                ========================== --}}
+                <div class="card">
+
+                    <div class="card-header d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <h5 class="mb-0">
+                                <i class="fa fa-key me-1"></i>
+                                Permissions
+                            </h5>
+
+                            <small class="text-muted">
+                                Select the permissions this role should have.
+                            </small>
+                        </div>
+
+                        <div>
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-soft-primary"
+                                id="selectAll">
+                                Select All
+                            </button>
+
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-soft-danger"
+                                id="unselectAll">
+                                Clear All
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            @foreach($permission as $value)
+
+                                <div class="col-xl-3 col-lg-4 col-md-6 mb-3">
+
+                                    <div class="border rounded p-3 h-100">
+
+                                        <div class="form-check">
+
+                                            <input
+                                                type="checkbox"
+                                                name="permission[{{ $value->id }}]"
+                                                value="{{ $value->id }}"
+                                                class="form-check-input permission-checkbox"
+                                                id="permission_{{ $value->id }}"
+                                            >
+
+                                            <label
+                                                class="form-check-label fw-medium"
+                                                for="permission_{{ $value->id }}"
+                                            >
+                                                {{ $value->name }}
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            @endforeach
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                {{-- =========================
+                     SECTION 03 : ACTION
+                ========================== --}}
+                <div class="card">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+                                <h5 class="mb-1">Save Role</h5>
+                                <p class="text-muted mb-0">
+                                    Review the role and selected permissions before saving.
+                                </p>
+                            </div>
+
+                            <div>
+
+                                <a
+                                    href="{{ route('roles.index') }}"
+                                    class="btn btn-light me-2"
+                                >
+                                    Cancel
+                                </a>
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary"
+                                >
+                                    <i class="fa-solid fa-floppy-disk me-1"></i>
+                                    Create Role
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </form>
+
         </div>
     </div>
 
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
-    <form method="POST" action="{{ route('roles.store') }}">
-        @csrf
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Name:</strong>
-                    <input type="text" name="name" placeholder="Name" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Permission:</strong>
-                    <br/>
-                    @foreach($permission as $value)
-                        <label><input type="checkbox" name="permission[{{$value->id}}]" value="{{$value->id}}" class="name">
-                            {{ $value->name }}</label>
-                        <br/>
-                    @endforeach
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <button type="submit" class="btn btn-primary btn-sm mb-3"><i class="fa-solid fa-floppy-disk"></i> Submit</button>
-            </div>
-        </div>
-    </form>
+    {{-- Select / Clear Permissions --}}
+    <script>
 
-    <p class="text-center text-primary"><small>Tutorial by ItSolutionStuff.com</small></p>
+        document.getElementById('selectAll').addEventListener('click', function () {
+
+            document.querySelectorAll('.permission-checkbox').forEach(function (checkbox) {
+                checkbox.checked = true;
+            });
+
+        });
+
+        document.getElementById('unselectAll').addEventListener('click', function () {
+
+            document.querySelectorAll('.permission-checkbox').forEach(function (checkbox) {
+                checkbox.checked = false;
+            });
+
+        });
+
+    </script>
+
 @endsection
