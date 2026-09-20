@@ -354,7 +354,8 @@
 
                                     <button
                                         type="submit"
-                                        class="btn btn-primary w-100 py-2 fw-semibold"
+                                        class="btn w-100 py-2 fw-semibold text-white"
+                                        style="background-color: #00a8cc; border-color: #00a8cc;"
                                     >
 
                                         <i class="fa-solid fa-right-to-bracket me-1"></i>
