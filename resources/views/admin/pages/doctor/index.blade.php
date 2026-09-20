@@ -78,8 +78,7 @@
                         <th>Name</th>
                         <th>Doctor Code</th>
                         <th>Department</th>
-                        <th>Phone</th>
-{{--                        <th>Specialization</th>--}}
+{{--                    <th>Specialization</th>--}}
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -137,7 +136,19 @@
 
                             <!-- Name -->
                             <td>
-                                {{ $doctor->name }}
+                                <div>
+                                    <strong>{{ $doctor->name }}</strong>
+
+                                    <div class="text-muted small mt-1">
+                                        <i class="ri-phone-line"></i>
+                                        {{ $doctor->phone ?? 'N/A' }}
+                                    </div>
+
+                                    <div class="text-muted small">
+                                        <i class="ri-mail-line"></i>
+                                        {{ $doctor->email ?? 'N/A' }}
+                                    </div>
+                                </div>
                             </td>
 
 
@@ -154,11 +165,6 @@
                                 {{ $doctor->department->name ?? 'N/A' }}
                             </td>
 
-
-                            <!-- Phone -->
-                            <td>
-                                {{ $doctor->phone ?? 'N/A' }}
-                            </td>
 
 
                             <!-- Specialization -->

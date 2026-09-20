@@ -91,6 +91,7 @@
                                                     {{ $doctor->name }}
                                                     -
                                                     {{ $doctor->doctor_code }}
+                                                    ({{ $doctor->department->name ?? 'N/A' }})
                                                 </option>
 
                                             @endforeach
