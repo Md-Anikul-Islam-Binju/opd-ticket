@@ -13,9 +13,13 @@
     <title>Patient Registration | OPD Ticket Management</title>
 
     <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        href="{{ asset('frontend/css/bootstrap.min.css') }}"
+        rel="stylesheet">
+        <link
+        href="{{ asset('frontend/css/color.css') }}"
         rel="stylesheet"
-    >
+        type="text/css"
+    />
 
     <link
         rel="stylesheet"
@@ -71,7 +75,7 @@
 
                     <a
                         href="{{ route('patient.login') }}"
-                        class="btn btn-outline-primary"
+                        class="btn btn-outline-dark"
                     >
 
                         <i class="fa-solid fa-right-to-bracket me-1"></i>
@@ -158,7 +162,7 @@
                     <div class="d-flex align-items-center">
 
                         <div
-                            class="bg-primary bg-opacity-10 text-primary
+                            class="bg-primary bg-opacity-10 text-teal
                                    rounded-circle d-flex align-items-center
                                    justify-content-center me-3"
                             style="width: 42px; height: 42px;"
@@ -204,7 +208,7 @@
                             <div class="input-group">
 
                                 <span class="input-group-text bg-white">
-                                    <i class="fa-solid fa-user text-primary"></i>
+                                    <i class="fa-solid fa-user text-teal"></i>
                                 </span>
 
                                 <input
@@ -235,7 +239,7 @@
                             <div class="input-group">
 
                                 <span class="input-group-text bg-white">
-                                    <i class="fa-solid fa-envelope text-primary"></i>
+                                    <i class="fa-solid fa-envelope text-teal"></i>
                                 </span>
 
                                 <input
@@ -266,7 +270,7 @@
                             <div class="input-group">
 
                                 <span class="input-group-text bg-white">
-                                    <i class="fa-solid fa-phone text-primary"></i>
+                                    <i class="fa-solid fa-phone text-teal"></i>
                                 </span>
 
                                 <input
@@ -337,7 +341,7 @@
                             <div class="input-group">
 
                                 <span class="input-group-text bg-white">
-                                    <i class="fa-solid fa-calendar text-primary"></i>
+                                    <i class="fa-solid fa-calendar text-teal"></i>
                                 </span>
 
                                 <input
@@ -363,7 +367,7 @@
                             <div class="input-group">
 
                                 <span class="input-group-text bg-white">
-                                    <i class="fa-solid fa-cake-candles text-primary"></i>
+                                    <i class="fa-solid fa-cake-candles text-teal"></i>
                                 </span>
 
                                 <input
@@ -774,7 +778,7 @@
                     <div class="d-flex align-items-center">
 
                         <div
-                            class="bg-primary bg-opacity-10 text-primary
+                            class="bg-primary bg-opacity-10 text-teal
                                    rounded-circle d-flex align-items-center
                                    justify-content-center me-3"
                             style="width: 42px; height: 42px;"
@@ -820,7 +824,7 @@
                             <div class="input-group">
 
                                 <span class="input-group-text bg-white">
-                                    <i class="fa-solid fa-lock text-primary"></i>
+                                    <i class="fa-solid fa-lock text-teal"></i>
                                 </span>
 
                                 <input
@@ -864,7 +868,7 @@
                             <div class="input-group">
 
                                 <span class="input-group-text bg-white">
-                                    <i class="fa-solid fa-lock text-primary"></i>
+                                    <i class="fa-solid fa-lock text-teal"></i>
                                 </span>
 
                                 <input
@@ -916,7 +920,7 @@
                             <div class="d-flex">
 
                                 <i class="fa-solid fa-circle-info
-                                          text-primary fs-4 me-3"></i>
+                                          text-teal fs-4 me-3"></i>
 
                                 <div>
 
@@ -952,7 +956,7 @@
 
                             <button
                                 type="submit"
-                                class="btn btn-primary px-4"
+                                class="btn btn-teal px-4"
                             >
 
                                 <i class="fa-solid fa-user-plus me-1"></i>

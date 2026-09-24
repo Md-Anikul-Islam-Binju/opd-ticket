@@ -1520,7 +1520,7 @@
                                 </div>
 
                                 <div class="text-xl sm:text-2xl
-                                        font-bold text-blue-600
+                                        font-bold text-teal-600
                                         tracking-wide">
 
                                     {{ $appointment->ticket_number }}
@@ -1714,7 +1714,7 @@
                                        rounded-xl
                                        p-4
                                        transition
-                                       hover:border-blue-400
+                                       hover:border-[#0D9488]
                                        hover:bg-blue-50/40"
                                 >
 
@@ -1725,8 +1725,8 @@
                                             name="payment_method"
                                             value="online"
                                             class="mt-1 w-4 h-4
-                                               text-blue-600
-                                               focus:ring-blue-500"
+                                               text-[#0D9488]
+                                               focus:ring-[#0D9488]"
                                             {{ old(
                                                 'payment_method',
                                                 $appointment->payment->payment_method ?? ''
@@ -1769,7 +1769,7 @@
                                        p-4
                                        mt-3
                                        transition
-                                       hover:border-blue-400
+                                       hover:border-[#0D9488]
                                        hover:bg-blue-50/40"
                                 >
 
@@ -1780,8 +1780,8 @@
                                             name="payment_method"
                                             value="manual"
                                             class="mt-1 w-4 h-4
-                                               text-blue-600
-                                               focus:ring-blue-500"
+                                               text-green
+                                               focus:ring-green"
                                             {{ old(
                                                 'payment_method',
                                                 $appointment->payment->payment_method ?? ''
@@ -1829,8 +1829,8 @@
                                     class="w-full mt-5
                                        py-3
                                        rounded-xl
-                                       bg-blue-600
-                                       hover:bg-blue-700
+                                       bg-teal-600
+                                       hover:bg-teal-700
                                        text-white
                                        font-bold
                                        text-base
@@ -2015,7 +2015,7 @@
 
                                 <div class="text-3xl sm:text-[32px]
                                         font-bold
-                                        text-blue-600
+                                        text-teal-600
                                         mt-1">
 
                                     ৳ {{ number_format(
@@ -2080,8 +2080,8 @@
                                     class="inline-flex items-center
                                        text-sm
                                        font-medium
-                                       text-blue-600
-                                       hover:text-blue-700
+                                       text-teal-600
+                                       hover:text-teal-700
                                        transition"
                                 >
 

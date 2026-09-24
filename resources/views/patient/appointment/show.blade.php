@@ -95,7 +95,7 @@
                             </div>
 
                             <div class="text-2xl sm:text-[25px] font-bold
-                                    text-blue-600 tracking-wide">
+                                    text-teal-600 tracking-wide">
 
                                 {{ $appointment->ticket_number }}
 
@@ -165,7 +165,7 @@
                                 Appointment Date
                             </div>
 
-                            <div class="text-[22px] font-bold text-blue-600">
+                            <div class="text-[22px] font-bold text-teal-600">
 
                                 {{ $appointment->appointment_date->format('d M Y') }}
 
@@ -220,7 +220,7 @@
 
                         <div class="w-[60px] h-[60px] shrink-0 rounded-full
                                 bg-blue-100 flex items-center justify-center
-                                text-blue-600 text-xl font-bold">
+                                text-teal-600 text-xl font-bold">
 
                             {{ strtoupper(
                                 substr(
@@ -412,7 +412,7 @@
                                 ) }}"
                                     class="inline-flex items-center justify-center
                                        px-5 py-2.5 rounded-[10px]
-                                       bg-blue-600 hover:bg-blue-700
+                                       bg-teal-600 hover:bg-teal-700
                                        text-white text-sm font-semibold
                                        transition"
                                 >
@@ -507,7 +507,7 @@
                                     ) }}"
                                         class="inline-flex items-center justify-center
                                            px-5 py-2.5 rounded-[10px]
-                                           bg-blue-600 hover:bg-blue-700
+                                           bg-teal-600 hover:bg-teal-700
                                            text-white text-sm font-semibold
                                            transition"
                                     >
@@ -595,7 +595,7 @@
                         ) }}"
                             class="inline-flex items-center justify-center
                                px-5 py-2.5 rounded-[10px]
-                               bg-blue-600 hover:bg-blue-700
+                               bg-teal-600 hover:bg-teal-700
                                text-white text-sm font-semibold
                                transition"
                         >

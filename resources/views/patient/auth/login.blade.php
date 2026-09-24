@@ -16,8 +16,12 @@
 
     <link
         href="{{ asset('frontend/css/bootstrap.min.css') }}"
+        rel="stylesheet">
+        <link
+        href="{{ asset('frontend/css/color.css') }}"
         rel="stylesheet"
-    >
+        type="text/css"
+    />
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -77,7 +81,7 @@
                                 </div>
 
 
-                                <span class="badge bg-light text-primary px-3 py-2 mb-3"
+                                <span class="badge bg-light text-teal px-3 py-2 mb-3"
                                       style="width: fit-content;">
 
                                     <i class="fa-solid fa-hospital me-1"></i>
@@ -207,7 +211,7 @@
 
                                     <div class="alert alert-success">
 
-                                        <i class="fa-solid fa-circle-check me-1"></i>
+                                        <i class="fa-solid fa-circle-check me-1 "></i>
 
                                         {{ session('success') }}
 
@@ -285,7 +289,7 @@
 
                                             <span class="input-group-text bg-white">
 
-                                                <i class="fa-solid fa-envelope text-primary"></i>
+                                                <i class="fa-solid fa-envelope text-teal"></i>
 
                                             </span>
 
@@ -318,7 +322,7 @@
 
                                             <span class="input-group-text bg-white">
 
-                                                <i class="fa-solid fa-lock text-primary"></i>
+                                                <i class="fa-solid fa-lock text-teal"></i>
 
                                             </span>
 
@@ -355,7 +359,7 @@
                                     <button
                                         type="submit"
                                         class="btn w-100 py-2 fw-semibold text-white"
-                                        style="background-color: #00a8cc; border-color: #00a8cc;"
+                                        style="background-color: #0D9488; border-color: #00a8cc;"
                                     >
 
                                         <i class="fa-solid fa-right-to-bracket me-1"></i>
@@ -381,7 +385,7 @@
 
                                     <a
                                         href="{{ route('patient.register') }}"
-                                        class="fw-semibold text-decoration-none"
+                                        class="fw-semibold text-teal text-decoration-none"
                                     >
 
                                         <i class="fa-solid fa-user-plus me-1"></i>
