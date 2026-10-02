@@ -312,7 +312,7 @@
 
                     <div class="doctor-name">
 
-                        Dr.
+
                         {{ $appointment->doctor->name ?? 'N/A' }}
 
                     </div>
@@ -320,11 +320,6 @@
 
                     <div class="doctor-info">
 
-                        MBBS, MD (Gastro). BSMMU.
-
-                        <br>
-
-                        Gastroenterology
 
                         <div class="department">
 
