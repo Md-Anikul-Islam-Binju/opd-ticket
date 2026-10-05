@@ -42,6 +42,7 @@ class DepartmentController extends Controller
 
             $request->validate([
                 'name'        => 'required|max:255|unique:departments,name',
+                'bn_name'     => 'nullable|max:255',
                 'description' => 'nullable',
                 'status'      => 'required|in:0,1',
             ]);
@@ -52,7 +53,7 @@ class DepartmentController extends Controller
             $department->slug = Str::slug($request->name);
             $department->description = $request->description;
             $department->status = $request->status;
-
+            $department->bn_name = $request->bn_name;
             $department->save();
 
             return redirect()->back()
@@ -73,6 +74,7 @@ class DepartmentController extends Controller
 
             $request->validate([
                 'name'        => 'required|max:255|unique:departments,name,' . $id,
+                'bn_name'     => 'nullable|max:255',
                 'description' => 'nullable',
                 'status'      => 'required|in:0,1',
             ]);
@@ -80,6 +82,7 @@ class DepartmentController extends Controller
             $department = Department::findOrFail($id);
 
             $department->name = $request->name;
+            $department->bn_name = $request->bn_name;
             $department->slug = Str::slug($request->name);
             $department->description = $request->description;
             $department->status = $request->status;

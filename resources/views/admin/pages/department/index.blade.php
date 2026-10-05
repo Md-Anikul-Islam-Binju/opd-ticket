@@ -59,6 +59,7 @@
                     <tr>
                         <th>S/N</th>
                         <th>Name</th>
+                        <th>Bn Name</th>
                         <th>Slug</th>
                         <th>Doctors</th>
                         <th>Description</th>
@@ -79,6 +80,10 @@
 
                             <td>
                                 {{ $department->name }}
+                            </td>
+
+                            <td>
+                                {{ $department->bn_name ?? 'N/A' }}
                             </td>
 
                             <td>
@@ -212,6 +217,27 @@
                                                                 class="form-control"
                                                                 placeholder="Enter Department Name"
                                                                 required
+                                                            >
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div class="col-12">
+
+                                                        <div class="mb-3">
+
+                                                            <label class="form-label">
+                                                                Bengali Name
+                                                            </label>
+
+                                                            <input
+                                                                type="text"
+                                                                name="bn_name"
+                                                                value="{{ $department->bn_name }}"
+                                                                class="form-control"
+                                                                placeholder="Enter Bengali Name"
                                                             >
 
                                                         </div>
@@ -473,6 +499,25 @@
 
                                 </div>
 
+                            </div>
+
+
+                            <div class="col-12">
+
+                                <div class="mb-3">
+
+                                    <label class="form-label">
+                                        Bengali Name
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="bn_name"
+                                        class="form-control"
+                                        placeholder="Enter Bengali Name"
+                                    >
+
+                                </div>
                             </div>
 
                         </div>
