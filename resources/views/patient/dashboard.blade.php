@@ -451,7 +451,8 @@
                                 </p>
 
                                 <p class="font-semibold text-slate-800 mt-1">
-                                    {{ $upcomingAppointment->department->name ?? 'N/A' }}
+                                    {{ $upcomingAppointment->department->name ?? 'N/A' }}<br>
+                                    {{ $upcomingAppointment->department->bn_name ?? 'N/A' }}
                                 </p>
 
                             </div>
@@ -843,7 +844,8 @@
 
                                     <span class="text-sm font-medium text-slate-700">
 
-                                        {{ $appointment->department->name ?? 'N/A' }}
+                                        {{ $appointment->department->name ?? 'N/A' }}<br>
+                                        {{ $appointment->department->bn_name ?? 'N/A' }}
 
                                     </span>
 
@@ -1010,7 +1012,8 @@
                     <div class="mt-3">
 
                         <p class="font-medium text-slate-700">
-                            {{ $appointment->department->name ?? 'N/A' }}
+                            {{ $appointment->department->name ?? 'N/A' }}.....
+
                         </p>
 
 

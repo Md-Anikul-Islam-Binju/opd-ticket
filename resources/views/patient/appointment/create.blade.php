@@ -1478,7 +1478,7 @@
                                     value="{{ $department->id }}"
                                     {{ old('department_id') == $department->id ? 'selected' : '' }}
                                 >
-                                    {{ $department->name }}
+                                    {{ $department->name }} -  {{ $department->bn_name ?? 'N/A' }}
                                 </option>
 
                             @endforeach

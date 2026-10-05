@@ -149,7 +149,8 @@
 
                             <div class="text-[15px] font-semibold text-gray-800">
 
-                                {{ $appointment->department->name ?? 'N/A' }}
+                                {{ $appointment->department->name ?? 'N/A' }}<br>
+                                {{ $appointment->department->bn_name ?? 'N/A' }}
 
                             </div>
 

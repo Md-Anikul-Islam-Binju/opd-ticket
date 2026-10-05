@@ -328,7 +328,7 @@
                             </span>
 
                             {{ $appointment->department->name
-                                ?? 'Gastroenterology'
+                                ?? 'N/A'
                             }}
 
                         </div>
