@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\DoctorController;
 use App\Http\Controllers\admin\DoctorScheduleController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\SlotController;
+use App\Http\Controllers\patient\AiAppointmentController;
 use App\Http\Controllers\patient\AppointmentController;
 use App\Http\Controllers\patient\PatientAuthController;
 use App\Http\Controllers\patient\PatientDashboardController;
@@ -38,6 +39,10 @@ Route::post('/patient/logout', [PatientAuthController::class, 'logout'])->name('
 Route::middleware(['auth', 'role:Patient'])->group(function () {
 
     Route::get('/patient/dashboard', [PatientDashboardController::class, 'index'])->name('patient.dashboard');
+
+    //AI Appointment
+    Route::post('/patient/ai/appointment/prompt', [AiAppointmentController::class, 'prompt'])->name('patient.ai.appointment.prompt');
+
     Route::get('/patient/appointment/create', [AppointmentController::class, 'create'])->name('patient.appointment.create');
     Route::get('/patient/appointment/slots', [AppointmentController::class, 'slots'])->name('patient.appointment.slots');
     Route::post('/patient/appointment/store', [AppointmentController::class, 'store'])->name('patient.appointment.store');

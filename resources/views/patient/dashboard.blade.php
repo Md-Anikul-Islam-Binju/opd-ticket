@@ -1,8 +1,5 @@
 @extends('patient.index')
 @section('content')
-
-
-
     <!-- =========================================
          SESSION MESSAGES
     ========================================== -->
@@ -1303,5 +1300,11 @@
         </div>
 
     </section>
+
+    <section class="mt-6">
+        @include('patient.ai.appointment-assistant')
+    </section>
+
+
 
 @endsection

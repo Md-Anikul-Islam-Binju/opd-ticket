@@ -2,6 +2,10 @@
 
 namespace App\Ai\Agents;
 
+use App\Ai\Tools\FindDepartments;
+use App\Ai\Tools\FindDoctors;
+use Laravel\Ai\Attributes\Provider;
+use Laravel\Ai\Enums\Lab;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\Conversational;
 use Laravel\Ai\Contracts\HasTools;
@@ -10,8 +14,8 @@ use Laravel\Ai\Messages\Message;
 use Laravel\Ai\Promptable;
 use Laravel\Ai\Providers\Tools\ProviderTool;
 use Stringable;
-use App\Ai\Tools\FindDepartments;
 
+#[Provider([Lab::Gemini, Lab::Groq, Lab::DeepSeek])]
 class AppointmentAgent implements Agent, Conversational, HasTools
 {
     use Promptable;
@@ -92,6 +96,7 @@ class AppointmentAgent implements Agent, Conversational, HasTools
     {
         return [
             new FindDepartments(),
+            new FindDoctors(),
         ];
     }
 }
