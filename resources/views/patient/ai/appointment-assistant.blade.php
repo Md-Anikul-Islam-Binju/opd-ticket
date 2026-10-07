@@ -19,7 +19,6 @@
 
         <div class="relative">
 
-
             {{-- =================================================
                  HEADER
             ================================================== --}}
@@ -38,9 +37,7 @@
                                    flex items-center justify-center
                                    shadow-md"
                         >
-
                             <i class="fa-solid fa-robot text-xl"></i>
-
                         </div>
 
 
@@ -58,20 +55,15 @@
                                            bg-green-100 text-green-700
                                            text-[10px] font-bold"
                                 >
-
                                     <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-
                                     Online
-
                                 </span>
 
                             </div>
 
 
                             <p class="text-sm text-slate-500 mt-1">
-
                                 Book your OPD appointment using natural language.
-
                             </p>
 
                         </div>
@@ -86,17 +78,13 @@
                                bg-white border border-slate-200
                                text-xs font-semibold text-slate-600"
                     >
-
                         <i class="fa-solid fa-wand-magic-sparkles text-teal-600"></i>
-
                         AI Powered
-
                     </div>
 
                 </div>
 
             </div>
-
 
 
             {{-- =================================================
@@ -106,56 +94,66 @@
             <div class="p-6">
 
 
-                {{-- Welcome Message --}}
-                <div class="flex items-start gap-3">
+                {{-- =================================================
+                     CHAT MESSAGES
+                ================================================== --}}
 
-                    {{-- AI Avatar --}}
-                    <div
-                        class="flex-shrink-0
-                               w-9 h-9 rounded-xl
-                               bg-teal-600 text-white
-                               flex items-center justify-center"
-                    >
+                <div
+                    id="aiChatMessages"
+                    class="space-y-4 max-h-[500px] overflow-y-auto pr-1"
+                >
 
-                        <i class="fa-solid fa-robot text-sm"></i>
+                    {{-- Welcome Message --}}
+                    <div class="flex items-start gap-3">
 
-                    </div>
-
-
-                    {{-- Message --}}
-                    <div class="max-w-2xl">
-
+                        {{-- AI Avatar --}}
                         <div
-                            class="rounded-2xl rounded-tl-md
-                                   bg-white
-                                   border border-slate-200
-                                   shadow-sm
-                                   px-4 py-3"
+                            class="flex-shrink-0
+                                   w-9 h-9 rounded-xl
+                                   bg-teal-600 text-white
+                                   flex items-center justify-center"
                         >
+                            <i class="fa-solid fa-robot text-sm"></i>
+                        </div>
 
-                            <p class="text-sm text-slate-700 leading-relaxed">
 
-                                Hello, {{ $patient->user->name ?? 'Patient' }}! 👋
+                        {{-- Message --}}
+                        <div class="max-w-2xl">
 
-                                <br>
+                            <div
+                                class="rounded-2xl rounded-tl-md
+                                       bg-white
+                                       border border-slate-200
+                                       shadow-sm
+                                       px-4 py-3"
+                            >
 
-                                I can help you book an OPD appointment.
+                                <p class="text-sm text-slate-700 leading-relaxed">
 
-                                Just tell me what you need in your own words.
+                                    Hello, {{ $patient->user->name ?? 'Patient' }}! 👋
 
+                                    <br>
+
+                                    I can help you book an OPD appointment.
+
+                                    <br>
+
+                                    Just tell me what you need in your own words.
+
+                                </p>
+
+                            </div>
+
+
+                            <p class="text-[11px] text-slate-400 mt-1 ml-1">
+                                AI Appointment Assistant
                             </p>
 
                         </div>
 
-
-                        <p class="text-[11px] text-slate-400 mt-1 ml-1">
-                            AI Appointment Assistant
-                        </p>
-
                     </div>
 
                 </div>
-
 
 
                 {{-- =================================================
@@ -176,11 +174,8 @@
                             onclick="setAiPrompt('I want to book an OPD appointment')"
                             class="ai-quick-prompt"
                         >
-
                             <i class="fa-solid fa-calendar-plus text-teal-600"></i>
-
                             Book an appointment
-
                         </button>
 
 
@@ -189,11 +184,8 @@
                             onclick="setAiPrompt('I need to see a doctor for fever')"
                             class="ai-quick-prompt"
                         >
-
                             <i class="fa-solid fa-temperature-half text-red-500"></i>
-
                             I have fever
-
                         </button>
 
 
@@ -202,11 +194,8 @@
                             onclick="setAiPrompt('Show me available doctors')"
                             class="ai-quick-prompt"
                         >
-
                             <i class="fa-solid fa-user-doctor text-blue-600"></i>
-
                             Available doctors
-
                         </button>
 
 
@@ -215,17 +204,13 @@
                             onclick="setAiPrompt('Show me available appointment slots')"
                             class="ai-quick-prompt"
                         >
-
                             <i class="fa-solid fa-clock text-amber-600"></i>
-
                             Available slots
-
                         </button>
 
                     </div>
 
                 </div>
-
 
 
                 {{-- =================================================
@@ -348,7 +333,6 @@
                 </form>
 
 
-
                 {{-- =================================================
                      LOADING
                 ================================================== --}}
@@ -366,9 +350,7 @@
                                    flex items-center justify-center
                                    flex-shrink-0"
                         >
-
                             <i class="fa-solid fa-robot text-sm"></i>
-
                         </div>
 
 
@@ -423,57 +405,16 @@
                 </div>
 
 
-
-                {{-- =================================================
-                     RESPONSE AREA
-                ================================================== --}}
-
-                <div
-                    id="aiResponseArea"
-                    class="hidden mt-4"
-                >
-
-                    <div class="flex items-start gap-3">
-
-                        <div
-                            class="w-9 h-9 rounded-xl
-                                   bg-teal-600 text-white
-                                   flex items-center justify-center
-                                   flex-shrink-0"
-                        >
-
-                            <i class="fa-solid fa-robot text-sm"></i>
-
-                        </div>
-
-
-                        <div class="flex-1 max-w-3xl">
-
-                            <div
-                                id="aiResponse"
-                                class="rounded-2xl rounded-tl-md
-                                       bg-white
-                                       border border-slate-200
-                                       shadow-sm
-                                       px-4 py-4
-                                       text-sm text-slate-700
-                                       leading-relaxed"
-                            ></div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
                 {{-- =================================================
                      SECURITY / INFO
                 ================================================== --}}
 
                 <div class="mt-5 flex items-start gap-2">
 
-                    <i class="fa-solid fa-shield-halved text-teal-600 text-xs mt-0.5"></i>
+                    <i
+                        class="fa-solid fa-shield-halved
+                               text-teal-600 text-xs mt-0.5"
+                    ></i>
 
                     <p class="text-[11px] text-slate-400 leading-relaxed">
 
@@ -501,8 +442,11 @@
 <style>
 
     .ai-quick-prompt {
+
         display: inline-flex;
+
         align-items: center;
+
         gap: 0.5rem;
 
         padding: 0.6rem 0.8rem;
@@ -526,6 +470,7 @@
 
 
     .ai-quick-prompt:hover {
+
         border-color: #99f6e4;
 
         background: #f0fdfa;
@@ -537,34 +482,56 @@
 
 
     .ai-quick-prompt:active {
+
         transform: translateY(0);
     }
 
 
     #aiPrompt {
+
         min-height: 52px;
+
         max-height: 140px;
     }
 
 
     #aiPrompt::-webkit-scrollbar {
+
         width: 5px;
     }
 
 
     #aiPrompt::-webkit-scrollbar-track {
+
         background: transparent;
     }
 
 
     #aiPrompt::-webkit-scrollbar-thumb {
+
         background: #cbd5e1;
+
         border-radius: 10px;
     }
 
 
-    #aiResponse {
-        white-space: pre-wrap;
+    #aiChatMessages::-webkit-scrollbar {
+
+        width: 5px;
+    }
+
+
+    #aiChatMessages::-webkit-scrollbar-track {
+
+        background: transparent;
+    }
+
+
+    #aiChatMessages::-webkit-scrollbar-thumb {
+
+        background: #cbd5e1;
+
+        border-radius: 10px;
     }
 
 </style>
@@ -579,21 +546,26 @@
 
     document.addEventListener('DOMContentLoaded', function () {
 
-        const form = document.getElementById('aiAppointmentForm');
+        const form =
+            document.getElementById('aiAppointmentForm');
 
-        const prompt = document.getElementById('aiPrompt');
+        const prompt =
+            document.getElementById('aiPrompt');
 
-        const sendButton = document.getElementById('aiSendButton');
+        const sendButton =
+            document.getElementById('aiSendButton');
 
-        const sendIcon = document.getElementById('aiSendIcon');
+        const sendIcon =
+            document.getElementById('aiSendIcon');
 
-        const loading = document.getElementById('aiLoading');
+        const loading =
+            document.getElementById('aiLoading');
 
-        const responseArea = document.getElementById('aiResponseArea');
+        const chatMessages =
+            document.getElementById('aiChatMessages');
 
-        const response = document.getElementById('aiResponse');
-
-        const characterCount = document.getElementById('aiCharacterCount');
+        const characterCount =
+            document.getElementById('aiCharacterCount');
 
 
         /*
@@ -645,6 +617,215 @@
 
         /*
         |--------------------------------------------------------------------------
+        | Add User Message
+        |--------------------------------------------------------------------------
+        */
+
+        function addUserMessage(message) {
+
+            const wrapper =
+                document.createElement('div');
+
+            wrapper.className =
+                'flex items-start gap-3 justify-end';
+
+
+            wrapper.innerHTML = `
+
+                <div class="max-w-2xl">
+
+                    <div
+                        class="rounded-2xl rounded-tr-md
+                               bg-teal-600
+                               text-white
+                               px-4 py-3
+                               shadow-sm"
+                    >
+
+                        <p class="text-sm leading-relaxed whitespace-pre-wrap">
+                            ${escapeHtml(message)}
+                        </p>
+
+                    </div>
+
+                    <p class="text-[11px] text-slate-400 mt-1 text-right mr-1">
+                        You
+                    </p>
+
+                </div>
+
+            `;
+
+
+            chatMessages.appendChild(wrapper);
+
+            scrollChat();
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Add AI Message
+        |--------------------------------------------------------------------------
+        */
+
+        function addAiMessage(message) {
+
+            const wrapper =
+                document.createElement('div');
+
+            wrapper.className =
+                'flex items-start gap-3';
+
+
+            wrapper.innerHTML = `
+
+                <div
+                    class="flex-shrink-0
+                           w-9 h-9 rounded-xl
+                           bg-teal-600 text-white
+                           flex items-center justify-center"
+                >
+
+                    <i class="fa-solid fa-robot text-sm"></i>
+
+                </div>
+
+
+                <div class="max-w-3xl">
+
+                    <div
+                        class="rounded-2xl rounded-tl-md
+                               bg-white
+                               border border-slate-200
+                               shadow-sm
+                               px-4 py-4
+                               text-sm text-slate-700
+                               leading-relaxed"
+                    >
+
+                        <div class="whitespace-pre-wrap">
+                            ${escapeHtml(message)}
+                        </div>
+
+                    </div>
+
+
+                    <p class="text-[11px] text-slate-400 mt-1 ml-1">
+                        AI Appointment Assistant
+                    </p>
+
+                </div>
+
+            `;
+
+
+            chatMessages.appendChild(wrapper);
+
+            scrollChat();
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Add Error Message
+        |--------------------------------------------------------------------------
+        */
+
+        function addErrorMessage(message) {
+
+            const wrapper =
+                document.createElement('div');
+
+            wrapper.className =
+                'flex items-start gap-3';
+
+
+            wrapper.innerHTML = `
+
+                <div
+                    class="flex-shrink-0
+                           w-9 h-9 rounded-xl
+                           bg-red-100 text-red-600
+                           flex items-center justify-center"
+                >
+
+                    <i class="fa-solid fa-circle-exclamation text-sm"></i>
+
+                </div>
+
+
+                <div class="max-w-3xl">
+
+                    <div
+                        class="rounded-2xl rounded-tl-md
+                               bg-red-50
+                               border border-red-200
+                               px-4 py-4
+                               text-sm text-red-600"
+                    >
+
+                        ${escapeHtml(message)}
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            chatMessages.appendChild(wrapper);
+
+            scrollChat();
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Scroll Chat To Bottom
+        |--------------------------------------------------------------------------
+        */
+
+        function scrollChat() {
+
+            setTimeout(function () {
+
+                chatMessages.scrollTo({
+
+                    top: chatMessages.scrollHeight,
+
+                    behavior: 'smooth'
+
+                });
+
+            }, 100);
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Escape HTML
+        |--------------------------------------------------------------------------
+        */
+
+        function escapeHtml(text) {
+
+            const div =
+                document.createElement('div');
+
+            div.textContent = text;
+
+            return div.innerHTML;
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
         | AJAX Submit
         |--------------------------------------------------------------------------
         */
@@ -656,8 +837,21 @@
                 event.preventDefault();
 
 
-                const promptValue = prompt.value.trim();
+                /*
+                |--------------------------------------------------------------------------
+                | Get Prompt Value
+                |--------------------------------------------------------------------------
+                */
 
+                const promptValue =
+                    prompt.value.trim();
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Empty Prompt Check
+                |--------------------------------------------------------------------------
+                */
 
                 if (!promptValue) {
 
@@ -670,49 +864,90 @@
 
                 /*
                 |--------------------------------------------------------------------------
+                | IMPORTANT:
+                | Create FormData BEFORE Clearing Textarea
+                |--------------------------------------------------------------------------
+                */
+
+                const formData =
+                    new FormData(form);
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Show User Message
+                |--------------------------------------------------------------------------
+                */
+
+                addUserMessage(promptValue);
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Clear Input
+                |--------------------------------------------------------------------------
+                */
+
+                prompt.value = '';
+
+                characterCount.textContent =
+                    '0 / 2000';
+
+
+                /*
+                |--------------------------------------------------------------------------
                 | Loading State
                 |--------------------------------------------------------------------------
                 */
 
                 sendButton.disabled = true;
 
-                sendButton.classList.add('opacity-60', 'cursor-not-allowed');
+                sendButton.classList.add(
+                    'opacity-60',
+                    'cursor-not-allowed'
+                );
 
-                sendIcon.className = 'fa-solid fa-spinner fa-spin';
+                sendIcon.className =
+                    'fa-solid fa-spinner fa-spin';
 
 
                 loading.classList.remove('hidden');
 
-                responseArea.classList.add('hidden');
+                scrollChat();
 
 
                 /*
                 |--------------------------------------------------------------------------
-                | Request
+                | Send Request
                 |--------------------------------------------------------------------------
                 */
 
                 try {
 
-                    const formData = new FormData(form);
+                    const responseData =
+                        await fetch(
+                            form.action,
+                            {
+                                method: 'POST',
+
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                },
+
+                                body: formData
+                            }
+                        );
 
 
-                    const responseData = await fetch(
-                        form.action,
-                        {
-                            method: 'POST',
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Parse JSON Response
+                    |--------------------------------------------------------------------------
+                    */
 
-                            headers: {
-                                'Accept': 'application/json',
-                                'X-Requested-With': 'XMLHttpRequest'
-                            },
-
-                            body: formData
-                        }
-                    );
-
-
-                    const data = await responseData.json();
+                    const data =
+                        await responseData.json();
 
 
                     /*
@@ -726,7 +961,7 @@
 
                     /*
                     |--------------------------------------------------------------------------
-                    | Error
+                    | Handle HTTP Error
                     |--------------------------------------------------------------------------
                     */
 
@@ -742,80 +977,51 @@
 
                     /*
                     |--------------------------------------------------------------------------
-                    | AI Response
+                    | Add AI Response
                     |--------------------------------------------------------------------------
                     */
 
-                    response.innerHTML =
+                    addAiMessage(
                         data.message ||
                         data.response ||
-                        'I received your request.';
-
-
-                    responseArea.classList.remove('hidden');
-
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | Clear Prompt
-                    |--------------------------------------------------------------------------
-                    */
-
-                    prompt.value = '';
-
-                    characterCount.textContent = '0 / 2000';
-
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | Scroll
-                    |--------------------------------------------------------------------------
-                    */
-
-                    setTimeout(function () {
-
-                        responseArea.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'nearest'
-                        });
-
-                    }, 100);
+                        'I received your request.'
+                    );
 
                 }
 
 
                 catch (error) {
 
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Hide Loading
+                    |--------------------------------------------------------------------------
+                    */
+
                     loading.classList.add('hidden');
 
 
-                    response.innerHTML = `
-                        <div class="flex items-start gap-3 text-red-600">
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Show Error
+                    |--------------------------------------------------------------------------
+                    */
 
-                            <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
-
-                            <div>
-
-                                <p class="font-semibold">
-                                    Unable to process your request
-                                </p>
-
-                                <p class="text-sm mt-1 text-red-500">
-                                    ${error.message}
-                                </p>
-
-                            </div>
-
-                        </div>
-                    `;
-
-
-                    responseArea.classList.remove('hidden');
+                    addErrorMessage(
+                        error.message ||
+                        'Something went wrong. Please try again.'
+                    );
 
                 }
 
 
                 finally {
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Reset Send Button
+                    |--------------------------------------------------------------------------
+                    */
 
                     sendButton.disabled = false;
 
@@ -826,6 +1032,15 @@
 
                     sendIcon.className =
                         'fa-solid fa-paper-plane';
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Focus Input
+                    |--------------------------------------------------------------------------
+                    */
+
+                    prompt.focus();
 
                 }
 
@@ -844,14 +1059,17 @@
 
     function setAiPrompt(value) {
 
-        const prompt = document.getElementById('aiPrompt');
+        const prompt =
+            document.getElementById('aiPrompt');
 
         const characterCount =
             document.getElementById('aiCharacterCount');
 
 
         if (!prompt) {
+
             return;
+
         }
 
 
@@ -871,3 +1089,4 @@
     }
 
 </script>
+

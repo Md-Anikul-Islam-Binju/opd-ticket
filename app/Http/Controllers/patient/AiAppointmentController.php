@@ -16,23 +16,70 @@ class AiAppointmentController extends Controller
         ]);
 
         try {
+
+            $user = $request->user();
+
+            /*
+            |--------------------------------------------------------------------------
+            | Get Existing Conversation
+            |--------------------------------------------------------------------------
+            */
+
+            $conversationId = session(
+                'ai_appointment_conversation_id'
+            );
+
+            /*
+            |--------------------------------------------------------------------------
+            | Continue Existing Conversation
+            | OR Start New Conversation
+            |--------------------------------------------------------------------------
+            */
+
             $response = (new AppointmentAgent)
-                ->prompt($request->input('prompt'));
+                ->continueOrStart(
+                    $conversationId,
+                    as: $user
+                )
+                ->prompt(
+                    $request->input('prompt')
+                );
+
+            /*
+            |--------------------------------------------------------------------------
+            | Save Conversation ID In Session
+            |--------------------------------------------------------------------------
+            */
+
+            if ($response->conversationId) {
+
+                session()->put(
+                    'ai_appointment_conversation_id',
+                    $response->conversationId
+                );
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Response
+            |--------------------------------------------------------------------------
+            */
 
             return response()->json([
                 'status' => true,
                 'message' => (string) $response,
+                'conversation_id' => $response->conversationId,
             ]);
 
         } catch (Throwable $e) {
+
             report($e);
 
             return response()->json([
                 'status' => false,
-                'message' => $e->getMessage(),
-                'exception' => get_class($e),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
+                'message' => config('app.debug')
+                    ? $e->getMessage()
+                    : 'AI assistant is temporarily unavailable.',
             ], 500);
         }
     }
