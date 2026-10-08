@@ -40,7 +40,7 @@ Route::middleware(['auth', 'role:Patient'])->group(function () {
 
     Route::get('/patient/dashboard', [PatientDashboardController::class, 'index'])->name('patient.dashboard');
 
-    //AI Appointment
+    //AI Appointment System done
     Route::post('/patient/ai/appointment/prompt', [AiAppointmentController::class, 'prompt'])->name('patient.ai.appointment.prompt');
 
     Route::get('/patient/appointment/create', [AppointmentController::class, 'create'])->name('patient.appointment.create');
