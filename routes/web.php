@@ -18,10 +18,8 @@ Route::get('/', function () {
     return view('patient.layout');
 });
 
-// ========================================
-// Patient Authentication
-// ========================================
 
+// Patient Authentication
 Route::get('/patient/register', [PatientAuthController::class, 'showRegister'])->name('patient.register');
 Route::post('/patient/register', [PatientAuthController::class, 'register'])->name('patient.register.store');
 Route::get('/patient/districts/{division_id}', [PatientAuthController::class, 'districts'])->name('patient.districts');
@@ -32,10 +30,8 @@ Route::post('/patient/login', [PatientAuthController::class, 'login'])->name('pa
 Route::post('/patient/logout', [PatientAuthController::class, 'logout'])->name('patient.logout');
 
 
-// ========================================
-// Patient Dashboard
-// ========================================
 
+// Patient Dashboard
 Route::middleware(['auth', 'role:Patient'])->group(function () {
 
     Route::get('/patient/dashboard', [PatientDashboardController::class, 'index'])->name('patient.dashboard');
@@ -50,15 +46,11 @@ Route::middleware(['auth', 'role:Patient'])->group(function () {
     Route::get('/patient/appointment/{id}/payment', [AppointmentController::class, 'payment'])->name('patient.appointment.payment');
     Route::post('/patient/appointment/{id}/payment-process', [AppointmentController::class, 'paymentProcess'])->name('patient.appointment.payment.process');
 
-    /*
-    * Fake Online Payment
-    */
+    //Fake Online Payment
     Route::get('/patient/appointment/{id}/fake-payment', [AppointmentController::class, 'fakePayment'])->name('patient.appointment.fake.payment');
     Route::post('/patient/appointment/{id}/fake-payment', [AppointmentController::class, 'fakePaymentProcess'])->name('patient.appointment.fake.payment.process');
 
-    /*
-     * Manual Payment Message
-     */
+    //Manual Payment Message
     Route::get('/patient/appointment/{id}/manual-payment', [AppointmentController::class, 'manualPayment'])->name('patient.appointment.manual.payment');
 
     Route::get('/patient/appointment/{id}/download-ticket', [AppointmentController::class, 'downloadTicket'])->name('patient.appointment.download-ticket');
