@@ -333,6 +333,23 @@
 
                         </div>
 
+
+                        <div class="department">
+                            <span class="label">Room No:</span>
+
+                            @php
+                                $roomIds = $appointment->department->room_ids ?? [];
+
+                                $roomNumbers = \App\Models\Room::whereIn('id', $roomIds)
+                                    ->orderBy('floor_no')
+                                    ->orderBy('room_no')
+                                    ->pluck('room_no')
+                                    ->toArray();
+                            @endphp
+
+                            {{ count($roomNumbers) ? implode(', ', $roomNumbers) : 'N/A' }}
+                        </div>
+
                     </div>
 
                 </td>
