@@ -9,6 +9,7 @@ class Department extends Model
     protected $fillable = [
         'name',
         'bn_name',
+        'room_ids',
         'slug',
         'description',
         'status',
@@ -16,6 +17,7 @@ class Department extends Model
 
     protected $casts = [
         'status' => 'boolean',
+        'room_ids' => 'array',
     ];
 
     public function doctors()

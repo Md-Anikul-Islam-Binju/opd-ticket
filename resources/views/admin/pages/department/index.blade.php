@@ -60,6 +60,7 @@
                         <th>S/N</th>
                         <th>Name</th>
                         <th>Bn Name</th>
+                        <th>Rooms</th>
                         <th>Slug</th>
                         <th>Doctors</th>
                         <th>Description</th>
@@ -71,6 +72,12 @@
                     <tbody>
 
                     @foreach($departments as $key => $department)
+                        @php
+                            $assignedRoomIds = array_map(
+                                'intval',
+                                $department->room_ids ?? []
+                            );
+                        @endphp
 
                         <tr>
 
@@ -84,6 +91,19 @@
 
                             <td>
                                 {{ $department->bn_name ?? 'N/A' }}
+                            </td>
+
+                            {{-- Assigned Rooms --}}
+                            <td>
+                                @forelse($assignedRoomIds as $roomId)
+                                    @if(isset($roomMap[$roomId]))
+                                        <span class="badge bg-info mb-1">
+                                                    {{ $roomMap[$roomId]->room_no }}
+                                                </span>
+                                    @endif
+                                @empty
+                                    <span class="text-muted">N/A</span>
+                                @endforelse
                             </td>
 
                             <td>
@@ -244,6 +264,48 @@
 
                                                     </div>
 
+                                                </div>
+
+
+                                                {{-- Multiple Room Selection --}}
+                                                <div class="col-12 mb-3">
+                                                    <label class="form-label">Assign Rooms</label>
+
+                                                    <select
+                                                        name="room_ids[]"
+                                                        class="form-control room-select"
+                                                        multiple
+                                                        required
+                                                    >
+                                                        @foreach($rooms as $room)
+                                                            @php
+                                                                $assignedRoomIds = array_map(
+                                                                    'intval',
+                                                                    $department->room_ids ?? []
+                                                                );
+
+                                                                $isAssigned = in_array(
+                                                                    (int) $room->id,
+                                                                    $assignedRoomIds,
+                                                                    true
+                                                                );
+                                                            @endphp
+
+                                                            @if($room->status === 'free' || $isAssigned)
+                                                                <option
+                                                                    value="{{ $room->id }}"
+                                                                    {{ $isAssigned ? 'selected' : '' }}
+                                                                >
+                                                                    Floor {{ $room->floor_no }} - Room {{ $room->room_no }}
+                                                                    {{ $isAssigned ? '(Assigned)' : '(Free)' }}
+                                                                </option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+
+                                                    <small class="text-muted">
+                                                        Previously assigned rooms are selected automatically.
+                                                    </small>
                                                 </div>
 
                                                 <!-- Status -->
@@ -518,6 +580,34 @@
                                     >
 
                                 </div>
+                            </div>
+
+
+                            {{-- Multiple Room Selection --}}
+                            <div class="col-12 mb-3">
+                                <label class="form-label">Assign Rooms</label>
+
+                                <select
+                                    name="room_ids[]"
+                                    class="form-control room-select"
+                                    multiple
+                                    required
+                                >
+                                    @foreach($rooms as $room)
+                                        @if($room->status === 'free')
+                                            <option
+                                                value="{{ $room->id }}"
+                                                {{ in_array($room->id, old('room_ids', [])) ? 'selected' : '' }}
+                                            >
+                                                Floor {{ $room->floor_no }} - Room {{ $room->room_no }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                </select>
+
+                                <small class="text-muted">
+                                    Only free rooms can be selected.
+                                </small>
                             </div>
 
                         </div>

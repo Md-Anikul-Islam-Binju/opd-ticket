@@ -110,6 +110,13 @@
                         </a>
                         <div class="collapse" id="sidebarPages">
                             <ul class="side-nav-second-level">
+
+                                @can('room-list')
+                                    <li>
+                                        <a href="{{route('room.section')}}">Room</a>
+                                    </li>
+                                @endcan
+
                                 @can('department-list')
                                 <li>
                                     <a href="{{route('department.section')}}">Department</a>

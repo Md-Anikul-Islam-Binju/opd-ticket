@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\AdminDashboardController;
 use App\Http\Controllers\admin\DepartmentController;
 use App\Http\Controllers\admin\DoctorController;
 use App\Http\Controllers\admin\DoctorScheduleController;
+use App\Http\Controllers\admin\RoomController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\SlotController;
 use App\Http\Controllers\patient\AiAppointmentController;
@@ -87,6 +88,12 @@ Route::middleware('auth')->group(callback: function () {
     Route::get('/service-section', [ServiceController::class, 'index'])->name('service.section');
     Route::post('/service-store', [ServiceController::class, 'store'])->name('service.store');
     Route::put('/service-update/{id}', [ServiceController::class, 'update'])->name('service.update');
+
+
+    Route::get('/room', [RoomController::class, 'index'])->name('room.section');
+    Route::post('/room/store', [RoomController::class, 'store'])->name('room.store');
+    Route::put('/room/update/{id}', [RoomController::class, 'update'])->name('room.update');
+    Route::delete('/room/destroy/{id}', [RoomController::class, 'destroy'])->name('room.destroy');
 
 
     //Role and User Section

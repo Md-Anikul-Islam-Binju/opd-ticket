@@ -37,6 +37,12 @@ class PermissionTableSeeder extends Seeder
             'department-edit',
             'department-delete',
 
+            //For Room
+            'room-list',
+            'room-create',
+            'room-edit',
+            'room-delete',
+
             //For Doctor
             'doctor-list',
             'doctor-create',
